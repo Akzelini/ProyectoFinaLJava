@@ -3,6 +3,13 @@
  */
 
 package com.mycompany.proyectofinal1;
+import InterfazGrafica.VentanaAnimales;
+import modelo.Animal;
+import modelo.Inventario;
+import InterfazGrafica.Login;
+
+
+
 
 /**
  *
@@ -11,6 +18,21 @@ package com.mycompany.proyectofinal1;
 public class ProyectoFinal1 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        
+      
+     
+
+        Inventario inv = new Inventario();
+
+       
+
+       new Login().setVisible(true);
+    }   
+       
+        
     }
-}
+    
+        
+        
+       
+    
