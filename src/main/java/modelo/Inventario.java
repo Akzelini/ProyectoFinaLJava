@@ -5,6 +5,7 @@
 package modelo;
 import java.util.ArrayList;
 import java.io.*;
+import modelo.Animal;   
 
 
 /**

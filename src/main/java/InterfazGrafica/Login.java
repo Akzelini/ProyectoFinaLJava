@@ -10,6 +10,9 @@ import modelo.Usuarios;
 import modelo.Inventario;
 import javax.swing.JOptionPane;
 import InterfazGrafica.VentanaAnimales;
+import modelo.Cultivos;
+import InterfazGrafica.IgInventario;
+
 
 /**
  *
@@ -19,6 +22,9 @@ public class Login extends javax.swing.JFrame {
     
     private Usuarios usuarios;
 private Inventario inventario;
+private Cultivos cultivos;
+
+
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Login.class.getName());
 
@@ -28,14 +34,11 @@ private Inventario inventario;
     
     
     public Login() {
-  
-
-
-
         initComponents();
           
         usuarios = new Usuarios();
         inventario = new Inventario();
+        cultivos = new Cultivos();
     }
 
     /**
@@ -117,8 +120,8 @@ String contrasena = jPasswordField1.getText();
 Usuario u = usuarios.validarLogin(usuario, contrasena);
 
 if (u != null) {
-   IgInventario menu = new IgInventario(inventario, u, usuarios);
-    menu.setVisible(true);
+    IgInventario menu = new IgInventario(inventario, u, usuarios, cultivos);
+     menu.setVisible(true);
     this.dispose();
 } else {
     JOptionPane.showMessageDialog(this, "Datos incorrectos");

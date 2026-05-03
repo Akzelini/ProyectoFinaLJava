@@ -41,6 +41,7 @@ public class VentanaCultivos extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        BtnEliminar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,8 +58,11 @@ public class VentanaCultivos extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Agregar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
+
+        BtnEliminar.setText("Eliminar");
+        BtnEliminar.addActionListener(this::BtnEliminarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -68,8 +72,10 @@ public class VentanaCultivos extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap(191, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(BtnEliminar))
+                .addContainerGap(193, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -81,7 +87,9 @@ public class VentanaCultivos extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(101, 101, 101))))
+                        .addGap(18, 18, 18)
+                        .addComponent(BtnEliminar)
+                        .addGap(60, 60, 60))))
         );
 
         pack();
@@ -104,7 +112,7 @@ String estado = (String) JOptionPane.showInputDialog(
         opciones[0]
 );
 
-cultivos.agregarCultivo(new Cultivo(id, nombre, cantidad, estado));
+cultivos.agregarCultivo(new Cultivo(id, nombre, cantidad, estado, 100));
 
 cargarTabla();
 
@@ -112,6 +120,23 @@ cargarTabla();
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void BtnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnEliminarActionPerformed
+                                        
+    {                                            
+    int fila = jTable1.getSelectedRow();
+
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(this, "Selecciona un cultivo");
+        return;
+    }
+
+    cultivos.getLista().remove(fila);
+    cargarTabla();
+}
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -160,6 +185,7 @@ private void cargarTabla() {
 }   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnEliminar;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

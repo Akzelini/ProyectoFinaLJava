@@ -10,19 +10,20 @@ package modelo;
  */
 public class Animal {
     
-      private int id;
+
+
+    private int id;
     private String nombre;
     private int edad;
-    private double precio;
     private double peso;
+    private double precio;
 
     public Animal(int id, String nombre, int edad, double peso, double precio) {
         this.id = id;
         this.nombre = nombre;
         this.edad = edad;
-          this.peso = peso;
+        this.peso = peso;
         this.precio = precio;
-      
     }
 
     public int getId() {
@@ -32,18 +33,21 @@ public class Animal {
     public String getNombre() {
         return nombre;
     }
-    
-   public int getEdad() {
-    return edad;
-}
-   public double getPeso() {
-    return peso;
-}
-    
 
-public double getPrecio() {
-    return precio;
-}
+    public int getEdad() {
+        return edad;
+    }
 
+    public double getPeso() {
+        return peso;
+    }
 
-}
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+ }
+

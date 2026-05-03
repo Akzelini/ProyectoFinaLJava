@@ -11,6 +11,9 @@ import InterfazGrafica.Login;
 import modelo.Usuarios;
 import modelo.Cultivos;
 import InterfazGrafica.VentanaCultivos;
+import modelo.Animal;
+
+
 /**
  *
  * @author akzelini
@@ -23,17 +26,23 @@ public class IgInventario extends javax.swing.JFrame {
      * Creates new form IgInventario
      * 
      */
-    private Inventario inventario;
-    private Usuarios usuarios;
-    private Cultivos cultivos;
+ private Inventario inventario;
+private Usuario usuario;
+private Usuarios usuarios;
+private Cultivos cultivos;
+private double dinero = 1000;
+
     
-    private Usuario usuario;
-    public IgInventario(Inventario inventario, Usuario usuario, Usuarios usuarios) {
+    public IgInventario(Inventario inventario, Usuario usuario, Usuarios usuarios, Cultivos cultivos) {
         initComponents();
+   
     this.inventario = inventario;
     this.usuario = usuario;
     this.usuarios = usuarios;
-    this.cultivos = new Cultivos();
+    this.cultivos = cultivos;
+            
+            
+            ;
     if (!usuario.getRol().equals("admin")) {
         BtnAgEmpl.setVisible(false);
         jLabel5.setVisible(false);
@@ -59,6 +68,8 @@ public class IgInventario extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         BtnAgEmpl = new javax.swing.JButton();
         BtnCerrarSesion = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        BtnVender = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -86,6 +97,11 @@ public class IgInventario extends javax.swing.JFrame {
         BtnCerrarSesion.setText("Cerrar sesion");
         BtnCerrarSesion.addActionListener(this::BtnCerrarSesionActionPerformed);
 
+        jLabel6.setText("Vender");
+
+        BtnVender.setText("Ingresar");
+        BtnVender.addActionListener(this::BtnVenderActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -96,8 +112,10 @@ public class IgInventario extends javax.swing.JFrame {
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(BtnCom)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(119, 119, 119)
+                                .addComponent(jLabel6))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(BtnPlan)
                                 .addGap(161, 161, 161)
@@ -105,13 +123,16 @@ public class IgInventario extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addComponent(BtnAnim))
+                                    .addComponent(BtnAnim)
+                                    .addComponent(BtnCom))
                                 .addGap(69, 69, 69)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addComponent(BtnAgEmpl))
-                                    .addComponent(jLabel5)))))
+                                        .addGap(3, 3, 3)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(BtnVender)
+                                            .addComponent(BtnAgEmpl)))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -133,9 +154,13 @@ public class IgInventario extends javax.swing.JFrame {
                             .addComponent(BtnAnim)
                             .addComponent(BtnAgEmpl))
                         .addGap(36, 36, 36)
-                        .addComponent(jLabel3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6))
                         .addGap(18, 18, 18)
-                        .addComponent(BtnCom)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(BtnCom)
+                            .addComponent(BtnVender))
                         .addGap(36, 36, 36)
                         .addComponent(jLabel4)
                         .addGap(27, 27, 27)
@@ -179,6 +204,14 @@ v.setVisible(true);        // TODO add your handling code here:
         // TODO add your handling code here:
     }//GEN-LAST:event_BtnPlanActionPerformed
 
+    private void BtnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVenderActionPerformed
+
+        VentanaVender v = new VentanaVender(inventario, cultivos,dinero);
+          v.setVisible(true);
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnVenderActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -210,10 +243,12 @@ v.setVisible(true);        // TODO add your handling code here:
     private javax.swing.JButton BtnCerrarSesion;
     private javax.swing.JButton BtnCom;
     private javax.swing.JButton BtnPlan;
+    private javax.swing.JButton BtnVender;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }
