@@ -9,6 +9,8 @@ import modelo.Usuario;
 import InterfazGrafica.VentanaAnimales;
 import InterfazGrafica.Login;
 import modelo.Usuarios;
+import modelo.Cultivos;
+import InterfazGrafica.VentanaCultivos;
 /**
  *
  * @author akzelini
@@ -23,7 +25,7 @@ public class IgInventario extends javax.swing.JFrame {
      */
     private Inventario inventario;
     private Usuarios usuarios;
-    
+    private Cultivos cultivos;
     
     private Usuario usuario;
     public IgInventario(Inventario inventario, Usuario usuario, Usuarios usuarios) {
@@ -31,9 +33,10 @@ public class IgInventario extends javax.swing.JFrame {
     this.inventario = inventario;
     this.usuario = usuario;
     this.usuarios = usuarios;
-
+    this.cultivos = new Cultivos();
     if (!usuario.getRol().equals("admin")) {
         BtnAgEmpl.setVisible(false);
+        jLabel5.setVisible(false);
     }
     }
 
@@ -73,6 +76,7 @@ public class IgInventario extends javax.swing.JFrame {
         BtnCom.setText("Ingresar");
 
         BtnPlan.setText("Ingresar");
+        BtnPlan.addActionListener(this::BtnPlanActionPerformed);
 
         jLabel5.setText("Agregar empleado");
 
@@ -165,6 +169,15 @@ this.dispose();
 VentanaEmpleados v = new VentanaEmpleados(usuarios, usuario);
 v.setVisible(true);        // TODO add your handling code here:
     }//GEN-LAST:event_BtnAgEmplActionPerformed
+
+    private void BtnPlanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnPlanActionPerformed
+        VentanaCultivos v = new VentanaCultivos(cultivos);
+        v.setVisible(true);
+
+
+        
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnPlanActionPerformed
 
     /**
      * @param args the command line arguments
