@@ -7,22 +7,52 @@ import java.io.*;
 public class Usuarios {
 
     private ArrayList<Usuario> lista;
+
     private HashSet<String> usuariosUnicos;
 
     public Usuarios() {
 
         lista = new ArrayList<>();
+
         usuariosUnicos = new HashSet<>();
 
         cargarDesdeArchivo();
 
         if (lista.isEmpty()) {
 
-            Usuario admin = new Usuario(1, "Akzelini", "654321", "admin");
+            Usuario admin =
+                    new Usuario(
+                            1,
+                            "Akzelini",
+                            "654321",
+                            "admin"
+                    );
+
+            Usuario astrid =
+                    new Usuario(
+                            2,
+                            "Astrid",
+                            "1234",
+                            "empleado"
+                    );
+
+            Usuario reyDavid =
+                    new Usuario(
+                            3,
+                            "ReyDavid",
+                            "1234",
+                            "empleado"
+                    );
 
             lista.add(admin);
+            lista.add(astrid);
+            lista.add(reyDavid);
 
             usuariosUnicos.add(admin.getUsuario());
+            usuariosUnicos.add(astrid.getUsuario());
+            usuariosUnicos.add(reyDavid.getUsuario());
+
+            guardarEnArchivo();
         }
     }
 
@@ -41,13 +71,20 @@ public class Usuarios {
 
     public void agregarUsuario(Usuario usuario) {
 
-        if (usuariosUnicos.contains(usuario.getUsuario())) {
+        if (usuariosUnicos.contains(
+                usuario.getUsuario()
+        )) {
 
-            System.out.println("Usuario repetido");
+            System.out.println(
+                    "Usuario repetido"
+            );
+
             return;
         }
 
-        usuariosUnicos.add(usuario.getUsuario());
+        usuariosUnicos.add(
+                usuario.getUsuario()
+        );
 
         lista.add(usuario);
 
@@ -65,35 +102,58 @@ public class Usuarios {
 
             BufferedReader br =
                     new BufferedReader(
-                            new FileReader("usuarios.txt")
+                            new FileReader(
+                                    "usuarios.txt"
+                            )
                     );
 
             String linea;
 
             lista.clear();
+
             usuariosUnicos.clear();
 
             while ((linea = br.readLine()) != null) {
 
-                String[] datos = linea.split(",");
+                String[] datos =
+                        linea.split(",");
 
-                int id = Integer.parseInt(datos[0]);
-                String usuario = datos[1];
-                String pass = datos[2];
-                String rol = datos[3];
+                int id =
+                        Integer.parseInt(
+                                datos[0]
+                        );
 
-                Usuario u = new Usuario(id, usuario, pass, rol);
+                String usuario =
+                        datos[1];
+
+                String pass =
+                        datos[2];
+
+                String rol =
+                        datos[3];
+
+                Usuario u =
+                        new Usuario(
+                                id,
+                                usuario,
+                                pass,
+                                rol
+                        );
 
                 lista.add(u);
 
-                usuariosUnicos.add(usuario);
+                usuariosUnicos.add(
+                        usuario
+                );
             }
 
             br.close();
 
         } catch (IOException e) {
 
-            System.out.println("No existe archivo");
+            System.out.println(
+                    "No existe archivo"
+            );
         }
     }
 
@@ -103,7 +163,9 @@ public class Usuarios {
 
             BufferedWriter bw =
                     new BufferedWriter(
-                            new FileWriter("usuarios.txt")
+                            new FileWriter(
+                                    "usuarios.txt"
+                            )
                     );
 
             for (Usuario u : lista) {
@@ -132,7 +194,9 @@ public class Usuarios {
 
             if (u.getId() == id) {
 
-                usuariosUnicos.remove(u.getUsuario());
+                usuariosUnicos.remove(
+                        u.getUsuario()
+                );
 
                 lista.remove(u);
 
