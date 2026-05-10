@@ -12,6 +12,10 @@ import javax.swing.JOptionPane;
 import modelo.Animal;
 import modelo.Usuario;
 import modelo.Usuarios;
+import java.util.ArrayList;
+import modelo.Empleado;
+import modelo.Agricultor;
+import modelo.Veterinario;
 
 
 /**
@@ -22,6 +26,7 @@ import modelo.Usuarios;
 public class VentanaEmpleados extends javax.swing.JFrame {
     private Usuarios usuarios;
 private Usuario usuarioActual;
+private ArrayList<Empleado> empleados = new ArrayList<>();
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(VentanaEmpleados.class.getName());
 
@@ -34,6 +39,8 @@ private Usuario usuarioActual;
 
     this.usuarios = usuarios;
     this.usuarioActual = usuarioActual;
+    empleados.add(new Agricultor(1, "Rey David"));
+empleados.add(new Veterinario(2, "Astrid Robinson"));
 
     if (!usuarioActual.getRol().equals("admin")) {
         jButton1.setEnabled(false);
@@ -41,18 +48,31 @@ private Usuario usuarioActual;
     cargarTabla();
 }
   private void cargarTabla() {
-    String[] columnas = {"ID", "Nombre", "Contraseña"};
+    String[] columnas = {"ID", "Nombre", "Trabajo", "Contraseña"};
 
     DefaultTableModel modelo = new DefaultTableModel(columnas, 0);
 
-    for (Usuario u : usuarios.getListaUsuarios()) {
-        Object[] fila = {
-            u.getId(),
-            u.getUsuario(),
-            u.getContrasena()
-        };
-        modelo.addRow(fila);
+  for (Empleado e : empleados) {
+
+    String pass = "";
+
+    if (e instanceof Agricultor) {
+        pass = "cultivos123";
     }
+
+    if (e instanceof Veterinario) {
+        pass = "animales123";
+    }
+
+    Object[] fila = {
+        e.getId(),
+        e.getNombre(),
+        e.getTrabajo(),
+        pass
+    };
+
+    modelo.addRow(fila);
+}
 
     jTable1.setModel(modelo);
 }
@@ -79,13 +99,13 @@ private Usuario usuarioActual;
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "ID", "Nombre", "Contraseña"
+                "ID", "Nombre", "Trabajo", "Contraseña"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -102,30 +122,32 @@ private Usuario usuarioActual;
             .addGroup(layout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(595, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 456, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1)
-                            .addComponent(jButton2))))
-                .addContainerGap(168, Short.MAX_VALUE))
+                            .addComponent(jButton2))
+                        .addGap(62, 62, 62))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(246, 246, 246)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(56, 56, 56))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(56, 56, 56))
+                        .addComponent(jButton1)
+                        .addGap(89, 89, 89))))
         );
 
         pack();

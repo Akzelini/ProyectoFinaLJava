@@ -10,7 +10,7 @@ import modelo.Animal;
 import modelo.Cultivo;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
+import modelo.RelojJuego;
 /**
  *
  * @author JC
@@ -20,23 +20,29 @@ public class VentanaVender extends javax.swing.JFrame {
     private Inventario inventario;
 private Cultivos cultivos;
         private double dinero;
-private double porcentajeMercado;
+        private double porcentajeMercado;
+
+
+
+private RelojJuego reloj;
  private static final java.util.logging.Logger logger =
         java.util.logging.Logger.getLogger(VentanaVender.class.getName());
 
 
-    public VentanaVender(Inventario inventario, Cultivos cultivos, double dinero) {
+    public VentanaVender(Inventario inventario, Cultivos cultivos, double dinero, RelojJuego reloj) {
     initComponents();
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
     this.inventario = inventario;
     this.cultivos = cultivos;
     this.dinero = dinero;
+     this.reloj = reloj;
 
     actualizarPrecios();
     cargarTabla();
     actualizarIndicadorMercado();
-}
+actualizarHora();
+    }
 
 
     /**
@@ -76,21 +82,44 @@ private double porcentajeMercado;
         c.setPrecio(ajustarPrecio(c.getPrecio()));
     }
 }
-        private void actualizarIndicadorMercado() {
-    Random r = new Random();
-    porcentajeMercado = -20 + (40 * r.nextDouble());
-double porcentaje = porcentajeMercado;
+  private void actualizarIndicadorMercado() {
 
-    String texto = String.format("Precio del mercado: %.2f%%", porcentaje);
+    porcentajeMercado = reloj.getPorcentajeMercado();
+
+    String texto = String.format(
+            "Precio del mercado: %.2f%%",
+            porcentajeMercado
+    );
+
     jLabel2.setText(texto);
 
-    if (porcentaje >= 0) {
-        jLabel2.setForeground(new java.awt.Color(0, 150, 0)); 
+    if (porcentajeMercado >= 0) {
+
+        jLabel2.setForeground(new java.awt.Color(0, 150, 0));
+
     } else {
-        jLabel2.setForeground(java.awt.Color.RED); 
+
+        jLabel2.setForeground(java.awt.Color.RED);
     }
 }
-        
+    
+private void actualizarHora() { javax.swing.Timer relojVisual = new javax.swing.Timer(1000, e -> {
+
+        LblHora.setText(
+                String.format("%02d:00", reloj.getHora())
+        );
+
+        actualizarIndicadorMercado();
+        actualizarPrecios();
+        cargarTabla();
+
+    });
+
+    relojVisual.start();
+
+    
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -106,6 +135,7 @@ double porcentaje = porcentajeMercado;
         jLabel1 = new javax.swing.JLabel();
         BtnVender = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        LblHora = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,6 +159,8 @@ double porcentaje = porcentajeMercado;
 
         jLabel2.setText("Precio del mercado: ");
 
+        LblHora.setText("00:00");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,14 +168,21 @@ double porcentaje = porcentajeMercado;
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addContainerGap(621, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(BtnVender)
-                            .addComponent(jLabel2))))
-                .addContainerGap(96, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(BtnVender)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(LblHora)
+                                .addGap(70, 70, 70))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -156,6 +195,8 @@ double porcentaje = porcentajeMercado;
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(33, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(LblHora)
+                        .addGap(29, 29, 29)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnVender)
@@ -194,6 +235,7 @@ double porcentaje = porcentajeMercado;
         precio = c.getPrecio();
         cultivos.getLista().remove(index);
     }
+    porcentajeMercado = reloj.getPorcentajeMercado();
 
     double multiplicador = 1 + (porcentajeMercado / 100);
     double precioFinal = precio * multiplicador;
@@ -222,6 +264,7 @@ double porcentaje = porcentajeMercado;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BtnVender;
+    private javax.swing.JLabel LblHora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

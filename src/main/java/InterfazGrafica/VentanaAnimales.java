@@ -12,6 +12,7 @@ import modelo.Animal;
 import javax.swing.JOptionPane;
 import modelo.Animal;
 import modelo.Usuario;
+import modelo.PrecioInvalidoException;  
 
 
 /**
@@ -44,7 +45,7 @@ private Usuario usuario;
     
        
        
-    cargarTabla();
+  
     }
            private void cargarTabla() {
                
@@ -84,6 +85,7 @@ private Usuario usuario;
         jTable1 = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        BtnModificar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,64 +108,159 @@ private Usuario usuario;
         jButton2.setText("Eliminar");
         jButton2.addActionListener(this::jButton2ActionPerformed);
 
+        BtnModificar.setText("Modificar");
+        BtnModificar.addActionListener(this::BtnModificarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 545, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(BtnModificar, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(11, 11, 11)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(17, 17, 17)
+                .addComponent(BtnModificar)
+                .addGap(18, 18, 18)
+                .addComponent(jButton2)
+                .addGap(55, 55, 55))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-int id = Integer.parseInt(JOptionPane.showInputDialog("ID"));
-String nombre = JOptionPane.showInputDialog("Nombre");
-int edad = Integer.parseInt(JOptionPane.showInputDialog("Edad"));
-double peso = Double.parseDouble(JOptionPane.showInputDialog("Peso"));
-double precio = Double.parseDouble(JOptionPane.showInputDialog("Precio"));
-inventario.guardarEnArchivo();
 
+    try {
 
-inventario.agregarAnimal(new Animal(id, nombre, edad, peso, precio));
+        int id = Integer.parseInt(
+                JOptionPane.showInputDialog("ID")
+        );
 
-cargarTabla();        // TODO add your handling code here:
+        String nombre = JOptionPane.showInputDialog("Nombre");
+
+        int edad = Integer.parseInt(
+                JOptionPane.showInputDialog("Edad")
+        );
+
+        double peso = Double.parseDouble(
+                JOptionPane.showInputDialog("Peso")
+        );
+
+        double precio = Double.parseDouble(
+                JOptionPane.showInputDialog("Precio")
+        );
+
+        if (precio < 0) {
+
+            throw new PrecioInvalidoException(
+                    "El precio no puede ser negativo"
+            );
+        }
+
+        inventario.agregarAnimal(
+                new Animal(id, nombre, edad, peso, precio)
+        );
+
+        inventario.guardarEnArchivo();
+
+        cargarTabla();
+
+    } catch (PrecioInvalidoException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                e.getMessage()
+        );
+
+    } catch (NumberFormatException e) {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Ingresa valores válidos"
+        );
+    }       // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-                int fila = jTable1.getSelectedRow();
+int fila = jTable1.getSelectedRow();
 
-if (fila >= 0) {
-    int id = Integer.parseInt(jTable1.getValueAt(fila, 0).toString());
-    inventario.eliminarAnimal(id);
-    cargarTabla();
-} else {
-    JOptionPane.showMessageDialog(this, "Selecciona una fila");
-}
+    if (fila >= 0) {
 
+        int id = Integer.parseInt(
+                jTable1.getValueAt(fila, 0).toString()
+        );
+
+        inventario.eliminarAnimal(id);
+
+        inventario.guardarEnArchivo();
+
+        cargarTabla();
+
+    } else {
+
+        JOptionPane.showMessageDialog(this, "Selecciona una fila");
+    }
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void BtnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnModificarActionPerformed
+int fila = jTable1.getSelectedRow();
+
+    if (fila >= 0) {
+
+        int id = Integer.parseInt(
+                jTable1.getValueAt(fila, 0).toString()
+        );
+
+        String nombre = JOptionPane.showInputDialog("Nuevo nombre");
+
+        int edad = Integer.parseInt(
+                JOptionPane.showInputDialog("Nueva edad")
+        );
+
+        double peso = Double.parseDouble(
+                JOptionPane.showInputDialog("Nuevo peso")
+        );
+
+        double precio = Double.parseDouble(
+                JOptionPane.showInputDialog("Nuevo precio")
+        );
+
+        inventario.modificarAnimal(
+                id,
+                nombre,
+                edad,
+                peso,
+                precio
+        );
+
+        cargarTabla();
+
+    } else {
+
+        JOptionPane.showMessageDialog(
+                this,
+                "Selecciona un animal"
+        );
+    }        // TODO add your handling code here:
+    }//GEN-LAST:event_BtnModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -195,6 +292,7 @@ private void configurarPermisos() {
     }
 }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BtnModificar;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane1;

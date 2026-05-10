@@ -12,6 +12,7 @@ import modelo.Usuarios;
 import modelo.Cultivos;
 import InterfazGrafica.VentanaCultivos;
 import modelo.Animal;
+import modelo.RelojJuego;
 
 
 /**
@@ -31,6 +32,8 @@ private Usuario usuario;
 private Usuarios usuarios;
 private Cultivos cultivos;
 private double dinero = 1000;
+private RelojJuego reloj = new RelojJuego();
+private javax.swing.Timer timerHora;
 
     
     public IgInventario(Inventario inventario, Usuario usuario, Usuarios usuarios, Cultivos cultivos) {
@@ -42,12 +45,25 @@ private double dinero = 1000;
     this.cultivos = cultivos;
             
             
-            ;
+      iniciarReloj();
+
     if (!usuario.getRol().equals("admin")) {
         BtnAgEmpl.setVisible(false);
         jLabel5.setVisible(false);
     }
     }
+    private void iniciarReloj() {
+
+    LblHora.setText(String.format("%02d:00", reloj.getHora()));
+
+    timerHora = new javax.swing.Timer(1000, e -> {
+
+        LblHora.setText(String.format("%02d:00", reloj.getHora()));
+
+    });
+
+    timerHora.start();
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -60,16 +76,15 @@ private double dinero = 1000;
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         BtnAnim = new javax.swing.JButton();
-        BtnCom = new javax.swing.JButton();
         BtnPlan = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         BtnAgEmpl = new javax.swing.JButton();
         BtnCerrarSesion = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         BtnVender = new javax.swing.JButton();
+        LblHora = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -77,14 +92,10 @@ private double dinero = 1000;
 
         jLabel2.setText("Animales");
 
-        jLabel3.setText("Comida");
-
-        jLabel4.setText("Plantas");
+        jLabel4.setText("Inventario");
 
         BtnAnim.setText("Ingresar");
         BtnAnim.addActionListener(this::BtnAnimActionPerformed);
-
-        BtnCom.setText("Ingresar");
 
         BtnPlan.setText("Ingresar");
         BtnPlan.addActionListener(this::BtnPlanActionPerformed);
@@ -102,6 +113,8 @@ private double dinero = 1000;
         BtnVender.setText("Ingresar");
         BtnVender.addActionListener(this::BtnVenderActionPerformed);
 
+        LblHora.setText("00:00");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,32 +124,35 @@ private double dinero = 1000;
                     .addGroup(layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(119, 119, 119)
-                                .addComponent(jLabel6))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(BtnPlan)
-                                .addGap(161, 161, 161)
+                                .addGap(233, 233, 233)
                                 .addComponent(BtnCerrarSesion))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
                                     .addComponent(BtnAnim)
-                                    .addComponent(BtnCom))
-                                .addGap(69, 69, 69)
+                                    .addComponent(jLabel4)
+                                    .addComponent(BtnPlan))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(BtnVender)
-                                            .addComponent(BtnAgEmpl)))))))
+                                        .addGap(69, 69, 69)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel5)
+                                                .addGap(86, 86, 86)
+                                                .addComponent(LblHora))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(3, 3, 3)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(BtnVender)
+                                                    .addComponent(BtnAgEmpl)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(90, 90, 90)
+                                        .addComponent(jLabel6))))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(436, Short.MAX_VALUE))
+                .addContainerGap(415, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,26 +162,24 @@ private double dinero = 1000;
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(LblHora))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(BtnAnim)
                             .addComponent(BtnAgEmpl))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(BtnCom)
-                            .addComponent(BtnVender))
-                        .addGap(36, 36, 36)
-                        .addComponent(jLabel4)
                         .addGap(27, 27, 27)
-                        .addComponent(BtnPlan)
-                        .addContainerGap(58, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(BtnVender)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel6))
+                                .addGap(27, 27, 27)
+                                .addComponent(BtnPlan)))
+                        .addContainerGap(160, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BtnCerrarSesion)
@@ -206,7 +220,7 @@ v.setVisible(true);        // TODO add your handling code here:
 
     private void BtnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVenderActionPerformed
 
-        VentanaVender v = new VentanaVender(inventario, cultivos,dinero);
+        VentanaVender v = new VentanaVender(inventario, cultivos,dinero, reloj);
           v.setVisible(true);
 
         // TODO add your handling code here:
@@ -241,12 +255,11 @@ v.setVisible(true);        // TODO add your handling code here:
     private javax.swing.JButton BtnAgEmpl;
     private javax.swing.JButton BtnAnim;
     private javax.swing.JButton BtnCerrarSesion;
-    private javax.swing.JButton BtnCom;
     private javax.swing.JButton BtnPlan;
     private javax.swing.JButton BtnVender;
+    private javax.swing.JLabel LblHora;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

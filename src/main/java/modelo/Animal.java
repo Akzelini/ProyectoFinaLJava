@@ -1,53 +1,86 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package modelo;
 
-/**
- *
- * @author akzelini
- */
-public class Animal {
-    
-
+public class Animal extends SerVivo implements Vendible {
 
     private int id;
-    private String nombre;
     private int edad;
     private double peso;
     private double precio;
 
-    public Animal(int id, String nombre, int edad, double peso, double precio) {
+    public Animal(
+            int id,
+            String nombre,
+            int edad,
+            double peso,
+            double precio
+    ) {
+
+        super(nombre);
+
         this.id = id;
-        this.nombre = nombre;
         this.edad = edad;
         this.peso = peso;
         this.precio = precio;
     }
 
     public int getId() {
+
         return id;
     }
 
+    @Override
     public String getNombre() {
+
         return nombre;
     }
 
     public int getEdad() {
+
         return edad;
     }
 
     public double getPeso() {
+
         return peso;
     }
 
     public double getPrecio() {
+
         return precio;
     }
 
+    public void setNombre(String nombre) {
+
+        this.nombre = nombre;
+    }
+
+    public void setEdad(int edad) {
+
+        this.edad = edad;
+    }
+
+    public void setPeso(double peso) {
+
+        this.peso = peso;
+    }
+
     public void setPrecio(double precio) {
+
         this.precio = precio;
     }
- }
 
+    @Override
+    public double calcularVenta() {
+
+        return precio;
+    }
+
+    @Override
+    public void mostrarInfo() {
+
+        System.out.println(
+                "Animal: " + nombre +
+                " | Precio: $" + precio
+        );
+    }
+}
