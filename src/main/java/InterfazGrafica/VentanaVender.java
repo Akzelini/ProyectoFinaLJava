@@ -41,7 +41,6 @@ private RelojJuego reloj;
     actualizarPrecios();
     cargarTabla();
     actualizarIndicadorMercado();
-actualizarHora();
     }
 
 
@@ -103,22 +102,7 @@ actualizarHora();
     }
 }
     
-private void actualizarHora() { javax.swing.Timer relojVisual = new javax.swing.Timer(1000, e -> {
 
-        LblHora.setText(
-                String.format("%02d:00", reloj.getHora())
-        );
-
-        actualizarIndicadorMercado();
-        actualizarPrecios();
-        cargarTabla();
-
-    });
-
-    relojVisual.start();
-
-    
-}
 
 
     /**
@@ -209,44 +193,74 @@ private void actualizarHora() { javax.swing.Timer relojVisual = new javax.swing.
     private void BtnVenderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtnVenderActionPerformed
 
      
-    int fila = jTable1.getSelectedRow();
+   int fila = jTable1.getSelectedRow();
 
     if (fila == -1) {
+
         JOptionPane.showMessageDialog(this, "Selecciona algo");
+
         return;
     }
 
     String tipo = jTable1.getValueAt(fila, 0).toString();
-    double precio = 0;
+
+    String nombre = jTable1.getValueAt(fila, 1).toString();
+
+    double precio = Double.parseDouble(
+            jTable1.getValueAt(fila, 2).toString()
+    );
 
     if (tipo.equals("Animal")) {
-        Animal a = inventario.getAnimales().get(fila);
-        precio = a.getPrecio();
-        inventario.getAnimales().remove(fila);
-    } else {
-        int index = fila - inventario.getAnimales().size();
 
-        if (index < 0 || index >= cultivos.getLista().size()) {
-            JOptionPane.showMessageDialog(this, "Error al seleccionar cultivo");
-            return;
+        Animal eliminar = null;
+
+        for (Animal a : inventario.getAnimales()) {
+
+            if (a.getNombre().equals(nombre)) {
+
+                eliminar = a;
+
+                break;
+            }
         }
 
-        Cultivo c = cultivos.getLista().get(index);
-        precio = c.getPrecio();
-        cultivos.getLista().remove(index);
+        if (eliminar != null) {
+
+            inventario.getAnimales().remove(eliminar);
+        }
+
+    } else {
+
+        Cultivo eliminar = null;
+
+        for (Cultivo c : cultivos.getLista()) {
+
+            if (c.getNombre().equals(nombre)) {
+
+                eliminar = c;
+
+                break;
+            }
+        }
+
+        if (eliminar != null) {
+
+            cultivos.getLista().remove(eliminar);
+        }
     }
+
     porcentajeMercado = reloj.getPorcentajeMercado();
 
-    double multiplicador = 1 + (porcentajeMercado / 100);
-    double precioFinal = precio * multiplicador;
+    double precioFinal =
+            precio + (precio * porcentajeMercado / 100);
 
     dinero += precioFinal;
 
-    JOptionPane.showMessageDialog(this,
-        "Precio base: $" + precio +
-        "\nMercado: " + String.format("%.2f", porcentajeMercado) + "%" +
-        "\nGanaste: $" + String.format("%.2f", precioFinal) +
-        "\nTotal: $" + String.format("%.2f", dinero)
+    JOptionPane.showMessageDialog(
+            this,
+            "Vendiste: " + nombre +
+            "\nGanancia: $" +
+            String.format("%.2f", precioFinal)
     );
 
     cargarTabla();
