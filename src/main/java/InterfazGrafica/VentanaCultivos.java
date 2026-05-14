@@ -131,7 +131,7 @@ cargarTabla();
         return;
     }
 
-    cultivos.getLista().remove(fila);
+    cultivos.eliminarCultivoPorIndice(fila);
     cargarTabla();
 }
 
