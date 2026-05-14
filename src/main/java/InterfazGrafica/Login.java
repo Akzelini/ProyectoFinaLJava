@@ -2,6 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
+
+// akzelini
 package InterfazGrafica;
 
 import javax.swing.*;
@@ -12,6 +15,7 @@ import javax.swing.JOptionPane;
 import InterfazGrafica.VentanaAnimales;
 import modelo.Cultivos;
 import InterfazGrafica.IgInventario;
+import  InterfazGrafica.IgInventario;
 
 
 /**
