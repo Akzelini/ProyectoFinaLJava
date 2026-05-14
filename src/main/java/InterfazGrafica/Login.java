@@ -5,7 +5,7 @@
 
 
 // akzelini
-package InterfazGrafica;
+package InterfazGrafica; //hola soy astrid
 
 import javax.swing.*;
 import modelo.Usuario;
